@@ -19,3 +19,5 @@ LTO_ENABLE			= yes
 
 OLED_ENABLE = yes # Enable OLEDs
 WPM_ENABLE = yes  # Enable WPM for demon animation
+DYNAMIC_MACRO_ENABLE = yes  # Enable dynamic macro recording
+DEFERRED_EXEC_ENABLE = yes  # Enable deferred execution for double-tap detection
