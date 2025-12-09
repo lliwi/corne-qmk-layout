@@ -537,11 +537,11 @@ bool rgb_matrix_indicators_user(void) {
             }
 
             if (is_wasd) {
-                // W, A, S, D en blanco
-                rgb_matrix_set_color(i, 255, 255, 255);
+                // W, A, S, D en blanco (brillo 100)
+                rgb_matrix_set_color(i, 100, 100, 100);
             } else {
-                // Resto de LEDs en amarillo (255, 255, 0 en RGB)
-                rgb_matrix_set_color(i, 255, 221, 51); // AMARILLO
+                // Resto de LEDs en amarillo (brillo 100)
+                rgb_matrix_set_color(i, 100, 87, 20); // AMARILLO
             }
         }
         return false;
@@ -549,19 +549,18 @@ bool rgb_matrix_indicators_user(void) {
 
     // Prioridad 3: Detectar si estamos en la capa NUMS
     if (current_layer == _NUMS) {
-        // Todos los LEDs en naranja
+        // Todos los LEDs en naranja (brillo 100)
         for (uint8_t i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
-            rgb_matrix_set_color(i, 255, 64, 25);  // NARANJA
+            rgb_matrix_set_color(i, 100, 25, 10);  // NARANJA
         }
         return false;
     }
 
     // Prioridad 4: Detectar si Caps Lock está activo (en capa base)
     if (host_keyboard_led_state().caps_lock) {
-        // Poner todos los LEDs en blanco cuando Caps Lock está activo
-        // Usar brillo más bajo para evitar problemas
+        // Poner todos los LEDs en blanco cuando Caps Lock está activo (brillo 100)
         for (uint8_t i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
-            rgb_matrix_set_color(i, 200, 200, 200);  // Blanco suave
+            rgb_matrix_set_color(i, 100, 100, 100);  // Blanco suave
         }
     }
     // Si ninguna condición está activa, el RGB Matrix usa el modo configurado (rainbow)

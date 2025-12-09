@@ -49,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #ifdef RGBLIGHT_LIMIT_VAL
         #undef RGBLIGHT_LIMIT_VAL
     #endif
-    #define RGBLIGHT_LIMIT_VAL 150
+    #define RGBLIGHT_LIMIT_VAL 120
 
     #define RGBLIGHT_HUE_STEP 10
     #define RGBLIGHT_SAT_STEP 17
@@ -77,7 +77,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #ifdef RGB_MATRIX_MAXIMUM_BRIGHTNESS
         #undef RGB_MATRIX_MAXIMUM_BRIGHTNESS
     #endif
-    #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 150
+    #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 120
 
     // LED count y layout definidos en keyboard.json (42 LEDs totales, 21 por lado)
 
