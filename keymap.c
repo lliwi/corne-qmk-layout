@@ -58,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //,-----------------------------------------------------.                 ,-----------------------------------------------------.
       KC_TAB,  KC_AT,   KC_UP,   KC_DLR,  KC_PERC, KC_CIRC,                   KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_MINS, KC_EQL,
 //|--------+--------+--------+--------+--------+--------|                 |--------+--------+--------+--------+--------+--------|
-      RSFT(KC_LSFT), KC_LEFT, KC_DOWN, KC_RGHT, KC_NO, KC_NO,                   KC_NO,   KC_NO,   KC_NO,   KC_LBRC, KC_RBRC, KC_NUHS,
+      LSFT_T(KC_CAPS), KC_LEFT, KC_DOWN, KC_RGHT, KC_NO, KC_NO,                   KC_NO,   KC_NO,   KC_NO,   KC_LBRC, KC_RBRC, KC_NUHS,
 //|--------+--------+--------+--------+--------+--------|                 |--------+--------+--------+--------+--------+--------|
       KC_LCTL, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_NO,   KC_NO,   KC_INT3, KC_NUBS, KC_NO,   KC_GRV,
 //|--------+--------+--------+--------+--------+--------+--------| |--------+--------+--------+--------+--------+--------+--------|
@@ -560,7 +560,7 @@ bool rgb_matrix_indicators_user(void) {
     if (host_keyboard_led_state().caps_lock) {
         // Poner todos los LEDs en blanco cuando Caps Lock está activo (brillo 100)
         for (uint8_t i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
-            rgb_matrix_set_color(i, 100, 100, 100);  // Blanco suave
+            rgb_matrix_set_color(i, 80, 80, 80);  // Blanco suave
         }
     }
     // Si ninguna condición está activa, el RGB Matrix usa el modo configurado (rainbow)

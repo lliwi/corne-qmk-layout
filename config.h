@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 //#define USE_MATRIX_I2C
 
-//#define QUICK_TAP_TERM 0
-//#define TAPPING_TERM 100
+#define TAPPING_TERM 250        // Tiempo para distinguir tap vs hold (ms)
+#define QUICK_TAP_TERM 100      // Permite taps rápidos consecutivos
 
 #ifdef RGBLIGHT_ENABLE
     // Número de LEDs: 54 totales (27 por lado) para Corne v3
