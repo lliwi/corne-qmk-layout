@@ -21,15 +21,10 @@ enum custom_keycodes {
     MACRO1 = SAFE_RANGE,
     MACRO2,
     MACRO3,
+    MACRO4,
     MACRO_STOP
 };
 
-//const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    [_QWERTY] = LAYOUT_split_3x6_3(KC_TAB, KC_Q, KC_W, KC_E, KC_R, KC_T, KC_Y, KC_U, KC_I, KC_O, KC_P, KC_BSPC, LSFT_T(KC_CAPS), KC_A, KC_S, KC_D, KC_F, KC_G, KC_H, KC_J, KC_K, KC_L, KC_SCLN, KC_QUOT, KC_LCTL, KC_Z, KC_X, KC_C, KC_V, KC_B, KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_ESC, KC_LGUI, MO(1), KC_SPC, KC_ENT, MO(2), KC_RALT),
-//    [_NUMS] = LAYOUT_split_3x6_3(KC_1, KC_2, KC_3, KC_4, KC_5, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS, KC_BSPC, LSFT_T(KC_F1), KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_LCTL, KC_NO, KC_NO, KC_LCTL, KC_LALT, KC_DEL, KC_NO, KC_NO, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_LGUI, KC_TRNS, KC_SPC, KC_ENT, MO(3), KC_RALT),
-//    [_SYMBOLS] = LAYOUT_split_3x6_3(KC_TAB, KC_AT, KC_UP, KC_DLR, KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_MINS, KC_EQL, RSFT(KC_LSFT), KC_LEFT, KC_DOWN, KC_RGHT, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_LBRC, KC_RBRC, KC_NUHS, KC_LCTL, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_INT3, KC_NUBS, KC_NO, KC_GRV, KC_LGUI, MO(3), KC_SPC, KC_ENT, KC_TRNS, KC_RALT),
-//    [_MEDIA] = LAYOUT_split_3x6_3(LGUI(KC_1), LGUI(KC_2), LGUI(KC_3), LGUI(KC_4), LGUI(KC_5), LGUI(KC_6), KC_BRID, KC_BRIU, KC_NO, KC_NO, KC_NO, KC_NO, RM_TOGG, RM_HUEU, RM_SATU, RM_VALU, KC_NO, KC_NO, KC_MUTE, KC_VOLD, KC_VOLU, KC_F20, KC_NO, KC_NO, RM_NEXT, RM_HUED, RM_SATD, RM_VALD, KC_NO, KC_NO, KC_MPLY, KC_MSTP, MACRO1, MACRO2, MACRO3, MACRO_STOP, KC_LGUI, KC_TRNS, KC_SPC, KC_ENT, KC_TRNS, KC_RALT)
-//};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_split_3x6_3(
@@ -71,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                 |--------+--------+--------+--------+--------+--------|
       KC_RSFT, RM_TOGG, RM_SATU, RM_VALU, KC_NO, KC_NO,                       KC_MUTE, KC_VOLD, KC_VOLU, KC_F20,  KC_NO, KC_NO,
 //|--------+--------+--------+--------+--------+--------|                 |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, RM_NEXT, RM_SATD, RM_VALD, KC_NO, KC_NO,                       KC_MPLY, KC_MSTP, MACRO1,  MACRO2,  MACRO3,  MACRO_STOP,
+      KC_LCTL, RM_NEXT, RM_SATD, RM_VALD, KC_NO, KC_NO,                       KC_MPLY, KC_MSTP, MACRO1,  MACRO2,  MACRO3,  MACRO4,
 //|--------+--------+--------+--------+--------+--------+--------| |--------+--------+--------+--------+--------+--------+--------|
                                                 KC_LGUI, KC_TRNS, KC_SPC,             KC_ENT,  KC_TRNS, KC_RALT
                                               //`--------------------------' `--------------------------'
@@ -98,9 +93,9 @@ typedef struct {
     deferred_token playback_token; // Token para cancelar reproducción pendiente
 } dynamic_macro_t;
 
-// Estado de las 3 macros
-static dynamic_macro_t macros[3] = {0};
-static int8_t currently_recording = -1; // -1 = no recording, 0-2 = macro index
+// Estado de las 4 macros
+static dynamic_macro_t macros[4] = {0};
+static int8_t currently_recording = -1; // -1 = no recording, 0-3 = macro index
 
 // Forward declarations
 void playback_macro(uint8_t macro_idx);
@@ -110,7 +105,7 @@ void load_macros_from_eeprom(void);
 // Callback para reproducir macro después del delay
 uint32_t deferred_playback_callback(uint32_t trigger_time, void *cb_arg) {
     uint8_t macro_idx = (uintptr_t)cb_arg;
-    if (macro_idx < 3 && macros[macro_idx].pending_playback) {
+    if (macro_idx < 4 && macros[macro_idx].pending_playback) {
         macros[macro_idx].pending_playback = false;
         playback_macro(macro_idx);
     }
@@ -119,7 +114,7 @@ uint32_t deferred_playback_callback(uint32_t trigger_time, void *cb_arg) {
 
 // Función auxiliar para grabar un keycode en la macro actual
 void record_key_to_macro(uint8_t macro_idx, uint16_t keycode, bool pressed) {
-    if (macro_idx >= 3) return;
+    if (macro_idx >= 4) return;
     dynamic_macro_t *macro = &macros[macro_idx];
 
     if (macro->length >= MACRO_BUFFER_SIZE - 1) {
@@ -155,7 +150,7 @@ uint16_t convert_modtap_to_mod(uint16_t keycode) {
 
 // Función para reproducir una macro
 void playback_macro(uint8_t macro_idx) {
-    if (macro_idx >= 3) return;
+    if (macro_idx >= 4) return;
     dynamic_macro_t *macro = &macros[macro_idx];
 
     if (macro->length == 0) return; // Macro vacía
@@ -182,7 +177,7 @@ void playback_macro(uint8_t macro_idx) {
 
 // Función para iniciar grabación de una macro
 void start_recording_macro(uint8_t macro_idx) {
-    if (macro_idx >= 3) return;
+    if (macro_idx >= 4) return;
 
     // Parar cualquier grabación previa
     if (currently_recording >= 0) {
@@ -207,7 +202,7 @@ void stop_recording_macro(void) {
 
 // Función para borrar una macro
 void clear_macro(uint8_t macro_idx) {
-    if (macro_idx >= 3) return;
+    if (macro_idx >= 4) return;
 
     // Cancelar cualquier reproducción pendiente
     if (macros[macro_idx].pending_playback) {
@@ -230,8 +225,8 @@ void clear_macro(uint8_t macro_idx) {
 // Estructura para guardar macros en EEPROM
 typedef struct {
     uint16_t magic;  // Magic number para validar datos
-    uint16_t lengths[3];  // Longitud de cada macro
-    uint16_t buffers[3][MACRO_BUFFER_SIZE];  // Buffer de cada macro
+    uint16_t lengths[4];  // Longitud de cada macro
+    uint16_t buffers[4][MACRO_BUFFER_SIZE];  // Buffer de cada macro
 } macro_eeprom_config_t;
 
 // Guardar macros en EEPROM
@@ -239,7 +234,7 @@ void save_macros_to_eeprom(void) {
     macro_eeprom_config_t config;
 
     config.magic = MACRO_EEPROM_MAGIC;
-    for (uint8_t i = 0; i < 3; i++) {
+    for (uint8_t i = 0; i < 4; i++) {
         config.lengths[i] = macros[i].length;
         for (uint16_t j = 0; j < MACRO_BUFFER_SIZE; j++) {
             config.buffers[i][j] = macros[i].buffer[j];
@@ -261,7 +256,7 @@ void load_macros_from_eeprom(void) {
     }
 
     // Cargar macros
-    for (uint8_t i = 0; i < 3; i++) {
+    for (uint8_t i = 0; i < 4; i++) {
         if (config.lengths[i] <= MACRO_BUFFER_SIZE) {
             macros[i].length = config.lengths[i];
             for (uint16_t j = 0; j < config.lengths[i]; j++) {
@@ -279,6 +274,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             case MACRO1:
             case MACRO2:
             case MACRO3:
+            case MACRO4:
             case MACRO_STOP:
                 // No grabar las teclas de control de macro
                 break;
@@ -300,7 +296,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case MACRO1:
         case MACRO2:
-        case MACRO3: {
+        case MACRO3:
+        case MACRO4: {
             uint8_t macro_idx = keycode - MACRO1;
 
             if (record->event.pressed) {
